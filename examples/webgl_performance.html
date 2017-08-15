@@ -43,8 +43,8 @@
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
-				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
-				camera.position.z = 3200;
+				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 15000 );
+				camera.position.z = 8200;
 
 				scene = new THREE.Scene();
 
@@ -57,7 +57,7 @@
 
 					geometry.computeVertexNormals();
 
-					for ( var i = 0; i < 5000; i ++ ) {
+					for ( var i = 0; i < 10000; i ++ ) {
 
 						var mesh = new THREE.Mesh( geometry, material );
 
@@ -82,8 +82,8 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
 
-				stats = new Stats();
-				container.appendChild( stats.dom );
+				//stats = new Stats();
+				//container.appendChild( stats.dom );
 
 				//
 
@@ -104,7 +104,7 @@
 			}
 
 			function onDocumentMouseMove(event) {
-
+				return;
 				mouseX = ( event.clientX - windowHalfX ) * 10;
 				mouseY = ( event.clientY - windowHalfY ) * 10;
 
@@ -117,12 +117,18 @@
 				requestAnimationFrame( animate );
 
 				render();
-				stats.update();
+				//stats.update();
 
 			}
 
+			var total_time = 0;
+			var total_fps = 0;
+			var n = 0;
+			var prev_t = 0;
 			function render() {
-
+				var t = performance.now();
+				total_fps += (t - prev_t);
+				prev_t = t;
 				camera.position.x += ( mouseX - camera.position.x ) * .05;
 				camera.position.y += ( - mouseY - camera.position.y ) * .05;
 				camera.lookAt( scene.position );
@@ -135,6 +141,16 @@
 				}
 
 				renderer.render( scene, camera );
+				var duration = performance.now() - t;
+				total_time += duration;
+				n++;
+				if (n > 60) {
+					console.log("average FPS: " + 1000/(total_fps/n));
+					console.log("average frame time: " + total_time/n);
+					n = 0;
+					total_time = 0;
+					total_fps = 0
+				}
 
 			}
 

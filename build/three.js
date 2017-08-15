@@ -20525,7 +20525,7 @@
 
 		var extensions = new WebGLExtensions( _gl );
 
-		extensions.get( 'WEBGL_depth_texture' );
+		/*extensions.get( 'WEBGL_depth_texture' );
 		extensions.get( 'OES_texture_float' );
 		extensions.get( 'OES_texture_float_linear' );
 		extensions.get( 'OES_texture_half_float' );
@@ -20537,7 +20537,7 @@
 
 			BufferGeometry.MaxIndex = 4294967296;
 
-		}
+		}*/
 
 		var capabilities = new WebGLCapabilities( _gl, extensions, parameters );
 
